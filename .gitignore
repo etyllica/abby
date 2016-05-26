@@ -1,0 +1,32 @@
+# Pre-Compiled Files #
+*.class
+/bin
+
+# SDK Projects
+/sdk
+
+# IntelliJ Files
+*.iml
+*/.idea
+*/.settings
+
+# Automatic Generated Files #
+*.applet
+*.attach
+
+# Package Files #
+*.war
+*.ear
+
+# Javadoc Files #
+/maven/javadoc
+
+# Maven GPG Settings File #
+settings.xml
+
+# Maven Artifact Files #
+maven-ant-tasks*
+*sources.jar
+*javadoc.jar
+*.asc
+*SNAPSHOT*
