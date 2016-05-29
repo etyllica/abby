@@ -39,14 +39,14 @@ public class OBJLoader implements VBOLoader {
 		
 	private static final String SEPARATOR = "/";
 
-	public Model loadModel(URL url) throws FileNotFoundException, IOException {
+	public Model loadModel(URL url, String path) throws FileNotFoundException, IOException {
 
 		String fpath = url.getPath();
 		
 		String modelFolder = PathHelper.upperDirectory(fpath);
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-		Model vbo = new Model(fpath);
+		Model vbo = new Model(path);
 
 		List<Group> groups = new ArrayList<Group>();
 		Group group = new Group(DEFAULT_GROUP_NAME);

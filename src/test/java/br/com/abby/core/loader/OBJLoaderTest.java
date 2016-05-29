@@ -48,7 +48,7 @@ public class OBJLoaderTest {
 				dir = new URL(MeshLoader.getInstance().getUrl(), "etyllica/assets/models/"+filename);
 			}
 			
-			Model vbo = loader.loadModel(dir);
+			Model vbo = loader.loadModel(dir, filename);
 			Assert.assertNotNull(vbo);
 			Assert.assertEquals(12, vbo.getFaces().size());
 			Assert.assertEquals(8, vbo.getVertices().size());

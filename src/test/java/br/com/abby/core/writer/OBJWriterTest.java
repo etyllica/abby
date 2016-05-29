@@ -65,7 +65,7 @@ public class OBJWriterTest {
 						
 			URL url = new URL(path+FILENAME);
 			
-			Model loaded = new OBJLoader().loadModel(url);
+			Model loaded = new OBJLoader().loadModel(url, FILENAME);
 			
 			Assert.assertEquals(8, loaded.getVertices().size());
 			Assert.assertEquals(6, loaded.getNormals().size());

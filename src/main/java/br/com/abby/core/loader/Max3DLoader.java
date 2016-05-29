@@ -58,13 +58,13 @@ public class Max3DLoader extends StreamParser implements VBOLoader {
 	}
 
 	@Override
-	public Model loadModel(URL url) throws FileNotFoundException, IOException {
+	public Model loadModel(URL url, String path) throws FileNotFoundException, IOException {
 
 		BufferedInputStream stream = new BufferedInputStream(url.openStream());
 
 		String currentObjName = DEFAULT_GROUP_NAME;
 		
-		Model vbo = new Model();
+		Model vbo = new Model(path);
 		Chunk chunk = new Chunk();
 		
 		boolean endReached = false;

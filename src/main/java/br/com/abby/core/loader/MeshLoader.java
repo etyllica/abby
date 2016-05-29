@@ -26,8 +26,8 @@ public class MeshLoader extends LoaderImpl {
 
 	private Map<String, VBOLoader> loaders = new HashMap<String, VBOLoader>();
 
-	private static final String OBJ = "obj";
-	private static final String MAX3D = "3ds";
+	public static final String OBJ = "obj";
+	public static final String MAX3D = "3ds";
 
 	public static MeshLoader getInstance() {
 		if(instance==null){
@@ -70,7 +70,7 @@ public class MeshLoader extends LoaderImpl {
 			System.out.println("Etyllica can't load "+ext+" files.");
 		} else {
 			try {
-				return loader.loadModel(dir);
+				return loader.loadModel(dir, path);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

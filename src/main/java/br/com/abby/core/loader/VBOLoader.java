@@ -10,6 +10,6 @@ public interface VBOLoader {
 
 	static final String DEFAULT_GROUP_NAME = "default";
 	
-	public Model loadModel(URL url) throws FileNotFoundException, IOException;
+	public Model loadModel(URL url, String path) throws FileNotFoundException, IOException;
 	
 }
