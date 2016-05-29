@@ -3,7 +3,7 @@ package br.com.abby.linear;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 
 /**
  * 
@@ -56,7 +56,7 @@ public class Boundary extends ColoredPoint3D{
 		return result;
 	}
 
-	public void desenha(Graphic g){
+	public void desenha(Graphics g){
 
 		int i;
 		
