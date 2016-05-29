@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.abby.core.loader.OBJLoader;
-import br.com.abby.core.vbo.Face;
-import br.com.abby.core.vbo.VBO;
+import br.com.abby.core.model.Face;
+import br.com.abby.core.model.Model;
 import br.com.etyllica.util.PathHelper;
 
 import com.badlogic.gdx.math.Vector3;
@@ -18,11 +18,11 @@ public class OBJWriterTest {
 
 	private static final String FILENAME = "test.obj";
 	
-	private VBO vbo;
+	private Model vbo;
 	
 	@Before
 	public void setUp() {
-		vbo = new VBO();
+		vbo = new Model();
 		
 		vbo.getVertices().add(new Vector3(0,0,0));
 		vbo.getVertices().add(new Vector3(0,0,1));
@@ -65,7 +65,7 @@ public class OBJWriterTest {
 						
 			URL url = new URL(path+FILENAME);
 			
-			VBO loaded = new OBJLoader().loadModel(url);
+			Model loaded = new OBJLoader().loadModel(url);
 			
 			Assert.assertEquals(8, loaded.getVertices().size());
 			Assert.assertEquals(6, loaded.getNormals().size());

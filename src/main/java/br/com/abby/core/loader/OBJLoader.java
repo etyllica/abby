@@ -12,9 +12,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.abby.core.material.OBJMaterial;
-import br.com.abby.core.vbo.Face;
-import br.com.abby.core.vbo.Group;
-import br.com.abby.core.vbo.VBO;
+import br.com.abby.core.model.Face;
+import br.com.abby.core.model.Group;
+import br.com.abby.core.model.Model;
 import br.com.etyllica.util.PathHelper;
 
 
@@ -39,14 +39,14 @@ public class OBJLoader implements VBOLoader {
 		
 	private static final String SEPARATOR = "/";
 
-	public VBO loadModel(URL url) throws FileNotFoundException, IOException {
+	public Model loadModel(URL url) throws FileNotFoundException, IOException {
 
 		String fpath = url.getPath();
 		
 		String modelFolder = PathHelper.upperDirectory(fpath);
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-		VBO vbo = new VBO();
+		Model vbo = new Model(fpath);
 
 		List<Group> groups = new ArrayList<Group>();
 		Group group = new Group(DEFAULT_GROUP_NAME);
@@ -104,7 +104,7 @@ public class OBJLoader implements VBOLoader {
 		return vbo;
 	}
 
-	private void parseMaterial(String modelFolder, VBO vbo, String line)
+	private void parseMaterial(String modelFolder, Model vbo, String line)
 			throws IOException {
 		List<OBJMaterial> materials = parseMaterial(modelFolder, line);
 
@@ -113,7 +113,7 @@ public class OBJLoader implements VBOLoader {
 		}
 	}
 
-	private void parseFace(VBO vbo, Group group, String line) {
+	private void parseFace(Model vbo, Group group, String line) {
 		String[] splitLine = line.substring(2).split(" ");
 
 		int sides = splitLine.length;
@@ -157,7 +157,7 @@ public class OBJLoader implements VBOLoader {
 		return line.replaceAll("  "," ");
 	}
 
-	private static void parseVertex(String line, VBO vbo) {
+	private static void parseVertex(String line, Model vbo) {
 
 		String[] parts = line.split(" ");
 
@@ -168,7 +168,7 @@ public class OBJLoader implements VBOLoader {
 		vbo.addVertex(new Vector3(x, y, z));
 	}
 
-	private static void parseVertexNormal(String line, VBO vbo) {
+	private static void parseVertexNormal(String line, Model vbo) {
 
 		String[] parts = line.split(" ");
 
@@ -179,7 +179,7 @@ public class OBJLoader implements VBOLoader {
 		vbo.getNormals().add(new Vector3(x, y, z));    	
 	}
 
-	private static void parseVertexTexture(String line, VBO vbo) {
+	private static void parseVertexTexture(String line, Model vbo) {
 
 		String[] parts = line.split(" ");
 

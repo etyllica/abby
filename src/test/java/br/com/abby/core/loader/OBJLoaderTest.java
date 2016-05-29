@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.abby.core.vbo.VBO;
+import br.com.abby.core.model.Model;
 import br.com.etyllica.util.PathHelper;
 import br.com.etyllica.util.io.IOHelper;
 
@@ -48,7 +48,7 @@ public class OBJLoaderTest {
 				dir = new URL(MeshLoader.getInstance().getUrl(), "etyllica/assets/models/"+filename);
 			}
 			
-			VBO vbo = loader.loadModel(dir);
+			Model vbo = loader.loadModel(dir);
 			Assert.assertNotNull(vbo);
 			Assert.assertEquals(12, vbo.getFaces().size());
 			Assert.assertEquals(8, vbo.getVertices().size());

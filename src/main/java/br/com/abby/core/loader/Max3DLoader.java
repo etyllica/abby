@@ -12,9 +12,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.abby.core.material.OBJMaterial;
-import br.com.abby.core.vbo.Face;
-import br.com.abby.core.vbo.Group;
-import br.com.abby.core.vbo.VBO;
+import br.com.abby.core.model.Face;
+import br.com.abby.core.model.Group;
+import br.com.abby.core.model.Model;
 
 /**
  * 
@@ -58,13 +58,13 @@ public class Max3DLoader extends StreamParser implements VBOLoader {
 	}
 
 	@Override
-	public VBO loadModel(URL url) throws FileNotFoundException, IOException {
+	public Model loadModel(URL url) throws FileNotFoundException, IOException {
 
 		BufferedInputStream stream = new BufferedInputStream(url.openStream());
 
 		String currentObjName = DEFAULT_GROUP_NAME;
 		
-		VBO vbo = new VBO();
+		Model vbo = new Model();
 		Chunk chunk = new Chunk();
 		
 		boolean endReached = false;
@@ -196,7 +196,7 @@ public class Max3DLoader extends StreamParser implements VBOLoader {
 		return endReached;
 	}
 
-	private void readVertices(InputStream buffer, VBO vbo) throws IOException {
+	private void readVertices(InputStream buffer, Model vbo) throws IOException {
 		float x, y, z;
 		int numVertices = readShort(buffer);
 
@@ -210,7 +210,7 @@ public class Max3DLoader extends StreamParser implements VBOLoader {
 		}
 	}
 
-	private void readFaces(InputStream buffer, VBO vbo, Group group) throws IOException {
+	private void readFaces(InputStream buffer, Model vbo, Group group) throws IOException {
 		int triangles = readShort(buffer); 
 
 		for (int i = 0; i < triangles; i++) {
@@ -233,7 +233,7 @@ public class Max3DLoader extends StreamParser implements VBOLoader {
 		}
 	}
 
-	private void readTexCoords(InputStream buffer, VBO vbo) throws IOException {
+	private void readTexCoords(InputStream buffer, Model vbo) throws IOException {
 		int numVertices = readShort(buffer);
 
 		for (int i = 0; i < numVertices; i++) {

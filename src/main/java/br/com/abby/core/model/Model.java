@@ -1,4 +1,4 @@
-package br.com.abby.core.vbo;
+package br.com.abby.core.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +12,10 @@ import br.com.etyllica.core.linear.Point3D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class VBO {
+public class Model {
 	
 	private String name;
+	private String path;
 	
 	private BoundingBox3D boundingBox = new BoundingBox3D();
 	
@@ -28,8 +29,13 @@ public class VBO {
 	
 	private Map<String, OBJMaterial> materials = new HashMap<String, OBJMaterial>();
 
-	public VBO() {
+	public Model() {
 		super();
+	}
+	
+	public Model(String path) {
+		super();
+		this.path = path;
 	}
 
 	public List<Vector3> getVertices() {
@@ -106,6 +112,14 @@ public class VBO {
 		int n = face.vertexIndex.length;
 		
 		return new Point3D(cx/n, cy/n, cz/n);
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 	
 }

@@ -8,8 +8,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import br.com.abby.core.loader.OBJLoader;
-import br.com.abby.core.vbo.Face;
-import br.com.abby.core.vbo.VBO;
+import br.com.abby.core.model.Face;
+import br.com.abby.core.model.Model;
 import br.com.etyllica.util.StringUtils;
 import br.com.etyllica.util.io.IOHelper;
 
@@ -20,7 +20,7 @@ public class OBJWriter implements VBOWriter {
 	private static final String FACE_SEPARATOR = "/";
 
 	@Override
-	public void writeVBO(VBO vbo, String filename) throws IOException {
+	public void writeVBO(Model vbo, String filename) throws IOException {
 
 		Writer writer = null;
 
@@ -51,7 +51,7 @@ public class OBJWriter implements VBOWriter {
 
 	}
 
-	private void writeFaces(VBO vbo, Writer writer) throws IOException {
+	private void writeFaces(Model vbo, Writer writer) throws IOException {
 		
 		for(Face face: vbo.getFaces()) {
 			
@@ -89,14 +89,14 @@ public class OBJWriter implements VBOWriter {
 		}
 	}
 	
-	private void writeNormals(VBO vbo, Writer writer) throws IOException {
+	private void writeNormals(Model vbo, Writer writer) throws IOException {
 		for(Vector3 vector: vbo.getNormals()) {
 			String text = OBJLoader.VERTEX_NORMAL+" "+vector.x+" "+vector.y+" "+vector.z+StringUtils.NEW_LINE;
 			writer.write(text);
 		}
 	}
 
-	private void writeVertexes(VBO vbo, Writer writer) throws IOException {
+	private void writeVertexes(Model vbo, Writer writer) throws IOException {
 		for(Vector3 vector: vbo.getVertices()) {
 			String text = OBJLoader.VERTEX+" "+vector.x+" "+vector.y+" "+vector.z+StringUtils.NEW_LINE;
 			writer.write(text);

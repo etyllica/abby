@@ -1,4 +1,4 @@
-package br.com.abby.core.vbo;
+package br.com.abby.core.model;
 
 import java.util.ArrayList;
 import java.util.List;
