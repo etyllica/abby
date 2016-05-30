@@ -1,6 +1,6 @@
 package br.com.abby.linear;
 
-import br.com.etyllica.core.linear.Point3D;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * 
@@ -11,44 +11,44 @@ import br.com.etyllica.core.linear.Point3D;
 
 public class Camera extends ColoredPoint3D {
 	
-	private Point3D target;
-	private Point3D normal;
+	private Vector3 target;
+	private Vector3 normal;
 	
-	public Camera(double x, double y, double z) {
+	public Camera(float x, float y, float z) {
 		super(x, y, z);
-		target = new Point3D(0,0,0);
-		normal = new Point3D(0,1,0);
+		target = new Vector3(0,0,0);
+		normal = new Vector3(0,1,0);
 	}
 	
-	public Point3D getTarget() {
+	public Vector3 getTarget() {
 		return target;
 	}
 		
-	public void setTarget(Point3D target) {
-		this.target = target;
+	public void setTarget(Vector3 target) {
+		this.target.set(target);
 	}
 		
-	public void setTarget(double x, double y, double z) {
-		target.setCoordinates(x, y, z);
+	public void setTarget(float x, float y, float z) {
+		target.set(x, y, z);
 	}
 		
-	public Point3D getNormal() {
+	public Vector3 getNormal() {
 		return normal;
 	}
 
-	public void setNormal(Point3D normal) {
+	public void setNormal(Vector3 normal) {
 		this.normal = normal;
 	}
 
 	public double angleXY() {
-		return angle(x, target.getX(), y, target.getY());
+		return angle(x, target.x, y, target.y);
 	}
 	
 	public double angleXZ() {
-		return angle(x, target.getX(), z, target.getZ());
+		return angle(x, target.x, z, target.z);
 	}
 	
 	public double angleYZ() {
-		return angle(y, target.getY(), z, target.getZ());
+		return angle(y, target.x, z, target.z);
 	}
 }

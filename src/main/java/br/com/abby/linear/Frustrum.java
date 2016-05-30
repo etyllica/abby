@@ -54,8 +54,8 @@ public class Frustrum {
 	public void setCamDef(Camera camera) {
 
 		Vector3 position = PointToVectorAdapter.adapt(camera);
-		Vector3 target = PointToVectorAdapter.adapt(camera.getTarget());
-		Vector3 up = PointToVectorAdapter.adapt(camera.getNormal());
+		Vector3 target = camera.getTarget();
+		Vector3 up = camera.getNormal();
 
 		setCamDef(position, target, up);
 	}
