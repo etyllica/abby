@@ -1,9 +1,11 @@
 package br.com.abby.util;
 
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
 
 public class RotationUtil {
-	
+
 	/**
 	 * Convert angles to quaternion
 	 * @param yaw in radians
@@ -29,6 +31,15 @@ public class RotationUtil {
 
 		Quaternion quaternion = new Quaternion((float)x, (float) y, (float) z, (float) w);
 		return quaternion;
+	}
+
+	public static Vector3 transformVector(Vector3 vector, Matrix4 transform) {
+		Vector3 out = new Vector3();
+		float[] mat = transform.val;
+		out.x = mat[Matrix4.M00]*vector.x + mat[Matrix4.M10]*vector.y + mat[Matrix4.M20]*vector.z + mat[Matrix4.M30];
+		out.y = mat[Matrix4.M01]*vector.x + mat[Matrix4.M11]*vector.y + mat[Matrix4.M21]*vector.z + mat[Matrix4.M31];
+		out.z = mat[Matrix4.M02]*vector.x + mat[Matrix4.M12]*vector.y + mat[Matrix4.M22]*vector.z + mat[Matrix4.M32];
+		return out;
 	}
 
 }
