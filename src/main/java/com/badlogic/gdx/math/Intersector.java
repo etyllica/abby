@@ -551,7 +551,7 @@ public final class Intersector {
 
 		// Test intersection with the 2 planes perpendicular to the OBB's X axis
 		{
-			Vector3 xaxis = new Vector3(matrix.val[Matrix4.M00], matrix.val[Matrix4.M01], matrix.val[Matrix4.M02]);
+			Vector3 xaxis = new Vector3(matrix.val[Matrix4.M00], matrix.val[Matrix4.M10], matrix.val[Matrix4.M20]);
 			float e = xaxis.dot(delta);
 			float f = ray.direction.dot(xaxis);
 
@@ -588,7 +588,7 @@ public final class Intersector {
 		// Test intersection with the 2 planes perpendicular to the OBB's Y axis
 		// Exactly the same thing than above.
 		{
-			Vector3 yaxis = new Vector3(matrix.val[Matrix4.M10], matrix.val[Matrix4.M11], matrix.val[Matrix4.M12]);
+			Vector3 yaxis = new Vector3(matrix.val[Matrix4.M01], matrix.val[Matrix4.M11], matrix.val[Matrix4.M21]);
 
 			float e = yaxis.dot(delta);
 			float f = ray.direction.dot(yaxis);
@@ -617,7 +617,7 @@ public final class Intersector {
 		// Test intersection with the 2 planes perpendicular to the OBB's Z axis
 		// Exactly the same thing than above.
 		{
-			Vector3 zaxis = new Vector3(matrix.val[Matrix4.M20], matrix.val[Matrix4.M21], matrix.val[Matrix4.M22]);
+			Vector3 zaxis = new Vector3(matrix.val[Matrix4.M02], matrix.val[Matrix4.M12], matrix.val[Matrix4.M22]);
 			
 			float e = zaxis.dot(delta);
 			float f = ray.direction.dot(zaxis);
@@ -644,7 +644,10 @@ public final class Intersector {
 
 		intersectionDistance = tMin;
 		return intersectionDistance;
-
+	}
+	
+	static public boolean intersectRayBoundsFast (Ray ray, BoundingBox aabb, Matrix4 matrix) {
+		return intersectRayBounds(ray, aabb, matrix) != NO_COLLISION;
 	}
 
 	static Vector3 best = new Vector3();
