@@ -17,9 +17,9 @@ public class Group {
 	private String name;
 	private List<Face> faces = new ArrayList<Face>();
 	
-	private OBJMaterial material;
+	private OBJMaterial material = NULL_MATERIAL;
 	
-	public Group(String name){
+	public Group(String name) {
 		super();
 		
 		this.name = name;
@@ -48,5 +48,6 @@ public class Group {
 	public void setMaterial(OBJMaterial material) {
 		this.material = material;
 	}
-		
+	
+	public static final OBJMaterial NULL_MATERIAL = new OBJMaterial();
 }

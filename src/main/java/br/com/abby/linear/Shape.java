@@ -49,33 +49,37 @@ public class Shape {
 		this.color = color;
 	}
 
+	public void setPosition(float x, float y, float z) {
+		transform.setToTranslation(x, y, z);
+	}
+	
 	public void setX(float x) {
-		Vector3 position = transform.getTranslation(new Vector3());
+		Vector3 position = position();
 		transform.setToTranslation(x, position.y, position.z);
 	}
 	
 	public float getX() {
-		Vector3 position = transform.getTranslation(new Vector3());
+		Vector3 position = position();
 		return position.x;
 	}
 	
 	public void setY(float y) {
-		Vector3 position = transform.getTranslation(new Vector3());
+		Vector3 position = position();
 		transform.setToTranslation(position.x, y, position.z);
 	}
 	
 	public float getY() {
-		Vector3 position = transform.getTranslation(new Vector3());
+		Vector3 position = position();
 		return position.y;
 	}
 	
 	public void setZ(float z) {
-		Vector3 position = transform.getTranslation(new Vector3());
+		Vector3 position = position();
 		transform.setToTranslation(position.x, position.y, z);
 	}
 	
 	public float getZ() {
-		Vector3 position = transform.getTranslation(new Vector3());
+		Vector3 position = position();
 		return position.z;
 	}
 	

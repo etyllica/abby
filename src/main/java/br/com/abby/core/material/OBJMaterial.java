@@ -133,5 +133,5 @@ public class OBJMaterial {
 	public void setIllum(int illum) {
 		this.illum = illum;
 	}
-		
+	
 }
