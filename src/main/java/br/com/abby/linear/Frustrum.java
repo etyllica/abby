@@ -2,7 +2,6 @@ package br.com.abby.linear;
 
 import java.util.List;
 
-import br.com.abby.util.PointToVectorAdapter;
 import br.com.etyllica.core.collision.CollisionStatus;
 
 import com.badlogic.gdx.math.Vector3;
@@ -53,7 +52,7 @@ public class Frustrum {
 
 	public void setCamDef(Camera camera) {
 
-		Vector3 position = PointToVectorAdapter.adapt(camera);
+		Vector3 position = camera.position;
 		Vector3 target = camera.getTarget();
 		Vector3 up = camera.getNormal();
 

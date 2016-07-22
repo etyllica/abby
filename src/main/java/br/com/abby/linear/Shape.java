@@ -7,16 +7,22 @@ import com.badlogic.gdx.math.Vector3;
 
 
 public class Shape {
-
+	
 	//TODO Move to material
 	protected Color color = Color.BLACK;
 	
+	public Vector3 position = new Vector3();
 	public Matrix4 transform = new Matrix4();
-	
-	public Vector3 position() {
-		return transform.getTranslation(new Vector3());
+		
+	public Shape() {
+		super();
 	}
 	
+	public Shape(float x, float y, float z) {
+		super();
+		position.set(x, y, z);
+	}
+
 	public Vector3 getScale() {
 		return transform.getScale(new Vector3());
 	}
@@ -50,48 +56,49 @@ public class Shape {
 	}
 
 	public void setPosition(float x, float y, float z) {
-		transform.setToTranslation(x, y, z);
+		this.position.set(x, y, z);
+		transform.setToTranslation(position);
 	}
 	
 	public void setX(float x) {
-		Vector3 position = position();
-		transform.setToTranslation(x, position.y, position.z);
+		this.position.x = x;
+		transform.setToTranslation(position);
 	}
 	
 	public float getX() {
-		Vector3 position = position();
 		return position.x;
 	}
 	
 	public void setY(float y) {
-		Vector3 position = position();
-		transform.setToTranslation(position.x, y, position.z);
+		this.position.y = y;
+		transform.setToTranslation(position);
 	}
 	
 	public float getY() {
-		Vector3 position = position();
 		return position.y;
 	}
 	
 	public void setZ(float z) {
-		Vector3 position = position();
-		transform.setToTranslation(position.x, position.y, z);
+		this.position.z = z;
+		transform.setToTranslation(position);
 	}
 	
 	public float getZ() {
-		Vector3 position = position();
 		return position.z;
 	}
 	
 	public void offsetX(float offsetX) {
+		position.x += offsetX;
 		transform.translate(offsetX, 0, 0);
 	}
 	
 	public void offsetY(float offsetY) {
+		position.y += offsetY;
 		transform.translate(0, offsetY, 0);
 	}
 	
 	public void offsetZ(float offsetZ) {
+		position.z += offsetZ;
 		transform.translate(0, 0, offsetZ);
 	}
 }
