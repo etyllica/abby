@@ -14,8 +14,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Model {
 	
-	private String name;
-	private String path;
+	private String name = "";
+	private String path = "";
 	
 	private BoundingBox3D boundingBox = new BoundingBox3D();
 	
