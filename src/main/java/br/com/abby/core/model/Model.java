@@ -42,9 +42,10 @@ public class Model {
 		return vertices;
 	}
 	
-	public void addVertex(Vector3 vertex) {
+	public int addVertex(Vector3 vertex) {
 		vertices.add(vertex);
 		boundingBox.add(vertex);
+		return vertices.size();
 	}
 
 	public List<Vector3> getNormals() {
