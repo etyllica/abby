@@ -15,6 +15,7 @@ import br.com.abby.core.model.Model;
 import br.com.etyllica.util.StringUtils;
 import br.com.etyllica.util.io.IOHelper;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class OBJWriter implements VBOWriter {
@@ -33,6 +34,8 @@ public class OBJWriter implements VBOWriter {
 					new FileOutputStream(file), IOHelper.ENCODING_UTF_8));
 
 			writeVertexes(vbo, writer);
+			
+			writeTextures(vbo, writer);
 
 			//Optional
 			writer.write(StringUtils.NEW_LINE);
@@ -122,6 +125,16 @@ public class OBJWriter implements VBOWriter {
 		return validTexture;
 	}
 
+	private void writeTextures(Model vbo, Writer writer) throws IOException {
+		for(Vector2 vector: vbo.getTextures()) {
+			String text = OBJLoader.VERTEX_TEXCOORD+" "+vector.x+" "+vector.y+StringUtils.NEW_LINE;
+			writer.write(text);
+		}
+		
+		//Optional
+		//writer.write(StringUtils.NEW_LINE);
+	}
+	
 	private void writeNormals(Model vbo, Writer writer) throws IOException {
 		for(Vector3 vector: vbo.getNormals()) {
 			String text = OBJLoader.VERTEX_NORMAL+" "+vector.x+" "+vector.y+" "+vector.z+StringUtils.NEW_LINE;
@@ -129,7 +142,9 @@ public class OBJWriter implements VBOWriter {
 		}
 		
 		//Optional
-		writer.write(StringUtils.NEW_LINE);
+		if(!vbo.getNormals().isEmpty()) {
+			writer.write(StringUtils.NEW_LINE);	
+		}
 	}
 
 	private void writeVertexes(Model vbo, Writer writer) throws IOException {
