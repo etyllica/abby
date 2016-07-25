@@ -6,8 +6,10 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
-public class AimPoint extends ColoredPoint3D {
+public class AimPoint extends Vector3 {
 
+	private static final long serialVersionUID = -848999878735473707L;
+	
 	protected double angleX = 0;
 	protected double angleY = 0;
 	protected double angleZ = 0;
@@ -16,12 +18,12 @@ public class AimPoint extends ColoredPoint3D {
 		super();
 	}
 	
-	public AimPoint(double x, double y, double z) {
+	public AimPoint(float x, float y, float z) {
 		super(x, y, z);
 	}
 	
-	public AimPoint(ColoredPoint3D point) {
-		super(point.getX(), point.getY(), point.getZ());
+	public AimPoint(Vector3 vector) {
+		super(vector.x, vector.y, vector.z);
 	}
 
 	public double getAngleX() {
@@ -149,13 +151,13 @@ public class AimPoint extends ColoredPoint3D {
 		return Math.sin(Math.toRadians(angleDegree));
 	}
 	
-	public void moveXZ(double distance) {
-		setX(x + AimPoint.sin(angleY) * distance);
-		setZ(z - AimPoint.cos(angleY-180) * distance);
+	public void moveXZ(float distance) {
+		x = (float)(x + AimPoint.sin(angleY) * distance);
+		z = (float)(z - AimPoint.cos(angleY-180) * distance);
 	}
 	
 	public Vector3 origin() {
-		return new Vector3((float)x, (float)y, (float)z);
+		return this;
 	}
 		
 	public Vector3 forward() {

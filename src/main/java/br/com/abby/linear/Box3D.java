@@ -7,18 +7,18 @@ package br.com.abby.linear;
  *
  */
 
-public class Box3D extends Polygon3D{
+public class Box3D extends Polygon3D {
 	
 	private double altura;
 	private double largura;
 	private double profundidade;
 	
-	public Box3D(){
-		this(0,0,0);
+	public Box3D() {
+		this(0, 0, 0);
 		
 	}
-	public Box3D(double x, double y, double z){
-		super(x,y,z);
+	public Box3D(float x, float y, float z) {
+		super(x, y, z);
 		
 		//N�o preciso desenhar v�rtices.
 		//Posso chamar direto o auxWireBox

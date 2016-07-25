@@ -13,7 +13,7 @@ public class Lamp extends AimPoint {
 	
 	protected float intensity;
 	
-	public Lamp(double x, double y, double z) {
+	public Lamp(float x, float y, float z) {
 		super(x,y,z);
 	}
 	
