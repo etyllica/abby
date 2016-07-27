@@ -58,8 +58,8 @@ public class OBJWriter implements VBOWriter {
 	}
 	
 	private void writeMaterials(Model vbo, Writer writer) throws IOException {
-		if(!vbo.getName().isEmpty()) {
-			writer.write(OBJLoader.MATERIAL_LIB+" "+vbo.getName()+MTL_EXTENSION+StringUtils.NEW_LINE);	
+		for(String materialLib: vbo.getMaterialLibs()) {
+			writer.write(OBJLoader.MATERIAL_LIB+" "+materialLib+MTL_EXTENSION+StringUtils.NEW_LINE);	
 		}
 		/*for(String materialName: vbo.getMaterials().keySet()) {
 			writer.write(OBJLoader.MATERIAL_LIB+" "+materialName+StringUtils.NEW_LINE);	

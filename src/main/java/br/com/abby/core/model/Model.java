@@ -28,6 +28,8 @@ public class Model {
 	private List<Group> groups = new ArrayList<Group>();
 	
 	private Map<String, OBJMaterial> materials = new HashMap<String, OBJMaterial>();
+	
+	private List<String> materialLibs = new ArrayList<String>();
 
 	public Model() {
 		super();
@@ -121,6 +123,14 @@ public class Model {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public List<String> getMaterialLibs() {
+		return materialLibs;
+	}
+
+	public void setMaterialLibs(List<String> materialLibs) {
+		this.materialLibs = materialLibs;
 	}
 	
 }
