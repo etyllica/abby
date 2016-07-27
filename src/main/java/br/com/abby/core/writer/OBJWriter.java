@@ -56,6 +56,23 @@ public class OBJWriter implements VBOWriter {
 			writer.close();			
 		}
 	}
+
+	private void writeHeader(Model vbo, Writer writer) throws IOException {
+		writer.write("# Created by Abby "+StringUtils.NEW_LINE);
+		writer.write("# Vertices: "+verticesCount(vbo)+",  Faces: "+facesCount(vbo)+StringUtils.NEW_LINE);
+	}
+
+	private int verticesCount(Model vbo) {
+		return vbo.getVertices().size();
+	}
+        
+	private int facesCount(Model vbo) {
+		int sum = vbo.getFaces().size();
+		for (Group group:vbo.getGroups()) {
+			sum += group.getFaces().size();
+		}
+		return sum;
+	}
 	
 	private void writeMaterials(Model vbo, Writer writer) throws IOException {
 		for(String materialLib: vbo.getMaterialLibs()) {
