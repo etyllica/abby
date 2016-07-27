@@ -24,6 +24,10 @@ public class Camera extends Shape {
 		normal = new Vector3(0, 1, 0);
 	}
 	
+	public Camera(Vector3 origin) {
+		this(origin.x, origin.y, origin.z);
+	}
+
 	public Vector3 getTarget() {
 		return target;
 	}
