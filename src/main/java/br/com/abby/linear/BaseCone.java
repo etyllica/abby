@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 
 public class BaseCone extends Shape {
 
@@ -56,5 +57,11 @@ public class BaseCone extends Shape {
 
 		return new Vector3(px, py, pz);
 	}
-
+	
+	public BoundingBox bbox() {
+		BoundingBox box = new BoundingBox(new Vector3(radius, height/2, radius), new Vector3(-radius, -height/2, -radius));
+		box.mul(transform);
+		return box;
+	}
+		
 }
