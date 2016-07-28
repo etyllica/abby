@@ -9,7 +9,7 @@ public class BaseCone extends Shape {
 
 	protected int sides = 3;
 	protected float height = 1f;
-	protected float radius = 10f;
+	protected float radius = 1f;
 
 	private static final double TWICE_PI = 2.0f * Math.PI;
 
@@ -30,6 +30,17 @@ public class BaseCone extends Shape {
 		super();
 		this.sides = sides;
 		this.height = height;
+		
+		buildPoints();
+	}
+
+	public BaseCone(int sides, float height, float radius) {
+		super();
+		this.sides = sides;
+		this.height = height;
+		this.radius = radius;
+		
+		buildPoints();
 	}
 
 	protected void buildPoints() {
