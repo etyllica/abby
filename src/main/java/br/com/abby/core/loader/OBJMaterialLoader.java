@@ -20,9 +20,9 @@ import br.com.abby.core.material.OBJMaterial;
 
 public class OBJMaterialLoader {
 	
-	private static final String NEW_MATERIAL = "newmtl";
-	private static final String DIFFUSE_COLOR = "Kd";
-	private static final String DIFFUSE_TEX_MAP = "map_Kd";
+	public static final String NEW_MATERIAL = "newmtl";
+	public static final String DIFFUSE_COLOR = "Kd";
+	public static final String DIFFUSE_TEX_MAP = "map_Kd";
 
 	public static List<OBJMaterial> loadMaterial(String folder, String filename) throws IOException{
 				
