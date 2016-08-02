@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class KeyFrame {
 
+	long id;
+	
 	float positionX = 0;
 	float positionY = 0;
 	float positionZ = 0;
@@ -16,9 +18,10 @@ public class KeyFrame {
 	
 	Quaternion rotation;
 	
-	public KeyFrame() {
+	public KeyFrame(long id) {
 		super();
 		
+		this.id = id;
 		rotation = new Quaternion();
 	}
 	
@@ -92,5 +95,31 @@ public class KeyFrame {
 	public void setRotation(Quaternion rotation) {
 		this.rotation = rotation;
 	}
-	
+
+	public long getId() {
+		return id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		KeyFrame other = (KeyFrame) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+		
 }
