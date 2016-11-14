@@ -10,7 +10,7 @@ public class BaseCone extends Shape {
 
 	protected int sides = 3;
 	protected float height = 1f;
-	protected float radius = 1f;
+	public float radius = 1f;
 
 	private static final double TWICE_PI = 2.0f * Math.PI;
 
@@ -46,14 +46,14 @@ public class BaseCone extends Shape {
 
 	protected void buildPoints() {
 		for(int i = 0; i <= sides; i++) {
-			lowerPoints.add(point(position, radius, -height/2, sides, i));
+			lowerPoints.add(point(radius, -height/2, sides, i));
 		}
 	}
 
-	protected static Vector3 point(Vector3 center, float radius, float height, int sides, int i) {
-		float px = (float) (center.x + (radius * Math.cos(i *  TWICE_PI / sides)));
-		float py = center.y + height;
-		float pz = (float) (center.z + (radius * Math.sin(i * TWICE_PI / sides)));
+	protected static Vector3 point(float radius, float height, int sides, int i) {
+		float px = (float) (radius * Math.cos(i *  TWICE_PI / sides));
+		float py = height;
+		float pz = (float) (radius * Math.sin(i * TWICE_PI / sides));
 
 		return new Vector3(px, py, pz);
 	}
@@ -63,5 +63,5 @@ public class BaseCone extends Shape {
 		box.mul(transform);
 		return box;
 	}
-	
+		
 }

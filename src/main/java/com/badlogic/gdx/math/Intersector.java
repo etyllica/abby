@@ -19,6 +19,7 @@ package com.badlogic.gdx.math;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.abby.linear.BaseCylinder;
 import br.com.abby.linear.OrientedBoundingBox;
 
 import com.badlogic.gdx.math.Plane.PlaneSide;
@@ -537,7 +538,7 @@ public final class Intersector {
 	static public float intersectRayBounds (Ray ray, OrientedBoundingBox obb) {
 		return intersectRayBounds(ray, obb, obb.transform);
 	}
-	
+
 	//Based on code at: http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
 	static public float intersectRayBounds (Ray ray, BoundingBox aabb, Matrix4 matrix) {
 		float intersectionDistance = NO_COLLISION;
@@ -618,7 +619,7 @@ public final class Intersector {
 		// Exactly the same thing than above.
 		{
 			Vector3 zaxis = new Vector3(matrix.val[Matrix4.M02], matrix.val[Matrix4.M12], matrix.val[Matrix4.M22]);
-			
+
 			float e = zaxis.dot(delta);
 			float f = ray.direction.dot(zaxis);
 
@@ -645,7 +646,7 @@ public final class Intersector {
 		intersectionDistance = tMin;
 		return intersectionDistance;
 	}
-	
+
 	static public boolean intersectRayBoundsFast (Ray ray, BoundingBox aabb, Matrix4 matrix) {
 		return intersectRayBounds(ray, aabb, matrix) != NO_COLLISION;
 	}
@@ -1331,6 +1332,89 @@ public final class Intersector {
 		public Vector2 normal = new Vector2();
 		/** Distance of the translation required for the separation */
 		public float depth = 0;
+	}
+
+	public static boolean intersectRayCylinderFast(Ray ray, BaseCylinder cylinder) {
+
+		Vector3 position = cylinder.transform.getTranslation(new Vector3());
+		
+		Vector3 minimum = new Vector3(position).sub(cylinder.radius);
+		Vector3 maximum = new Vector3(position).add(cylinder.radius);
+		
+		if (!intersectRayBoundsFast(ray, new BoundingBox(minimum, maximum))) {
+			return false;
+		}
+		
+		final float D3_EPSILON = 0.0001f;
+		double lambda;
+
+		Vector3 RC = new Vector3(ray.origin).sub(position);
+		Vector3 dir = new Vector3(ray.direction).sub(position);
+		
+		float d;
+		float t;
+		double s;
+		Vector3 n,D,O;
+		float ln;
+		double in,out;
+
+		Vector3 cylinderAxis = Vector3.Y;
+		n = new Vector3(dir).crs(cylinderAxis);
+		ln = n.len();
+
+		if ((ln < D3_EPSILON) && (ln > -D3_EPSILON))
+			return false;
+
+		n.nor();
+
+		d = Math.abs(new Vector3(RC).dot(n));
+
+		if (d <= cylinder.radius)
+		{
+			O = new Vector3(RC).crs(cylinderAxis);
+			//TVector::cross(RC,cylinder._Axis,O);
+			t = -O.dot(n)/ln;
+			//TVector::cross(n,cylinder._Axis,O);
+			O = new Vector3(n).crs(cylinderAxis);
+			O.nor();
+			s = Math.abs( Math.sqrt(cylinder.radius*cylinder.radius-d*d) / dir.dot(O));
+
+			in=t-s;
+			out=t+s;
+
+			if (in<-D3_EPSILON)
+			{
+				if(out<-D3_EPSILON)
+					return false;
+				else lambda=out;
+			} else if(out<-D3_EPSILON)
+			{
+				lambda=in;
+			} else if(in<out)
+			{
+				lambda=in;
+			} else
+			{
+				lambda=out;
+			}
+
+			// Calculate intersection point
+			/*Vector3 intersection = new Vector3(ray.origin);
+			intersection.add((float)(dir.x*lambda), (float)(dir.y*lambda), (float)(dir.z*lambda));
+			intersection.sub(cylinder.position);
+			
+			//Calculate the normal
+			Vector3 HB = intersection;
+			
+			float scale=HB.Dot(&cylinder.axis);
+			normal.x=HB.x-cylinder.axis.x*scale;
+			normal.y=HB.y-cylinder.axis.y*scale;
+			normal.z=HB.z-cylinder.axis.z*scale;
+			normal.Normalize();*/
+			return true;
+		}
+
+		return false;
 	}
 
 }

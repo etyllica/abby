@@ -25,8 +25,8 @@ public class BaseCylinder extends BaseCone {
 	protected void buildPoints() {
 		upperPoints = new ArrayList<Vector3>();
 		for (int i = 0; i <= sides; i++) {
-			upperPoints.add(BaseCone.point(position, radius, +height/2, sides, i));
-			lowerPoints.add(BaseCone.point(position, radius, -height/2, sides, i));
+			upperPoints.add(BaseCone.point(radius, +height/2, sides, i));
+			lowerPoints.add(BaseCone.point(radius, -height/2, sides, i));
 		}
 	}
 
