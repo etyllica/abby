@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.abby.core.loader.OBJLoader;
+import br.com.abby.core.loader.mesh.OBJLoader;
 import br.com.abby.core.model.Face;
 import br.com.abby.core.model.Model;
 import br.com.etyllica.util.PathHelper;

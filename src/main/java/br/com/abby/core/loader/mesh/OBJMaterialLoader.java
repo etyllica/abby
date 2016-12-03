@@ -1,4 +1,4 @@
-package br.com.abby.core.loader;
+package br.com.abby.core.loader.mesh;
 
 import java.io.BufferedReader;
 import java.io.File;

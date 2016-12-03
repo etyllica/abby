@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import br.com.abby.core.loader.OBJMaterialLoader;
+import br.com.abby.core.loader.mesh.OBJMaterialLoader;
 import br.com.abby.core.material.OBJMaterial;
 import br.com.etyllica.util.StringUtils;
 import br.com.etyllica.util.io.IOHelper;

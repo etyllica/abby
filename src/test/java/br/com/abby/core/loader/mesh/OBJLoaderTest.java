@@ -1,4 +1,4 @@
-package br.com.abby.core.loader;
+package br.com.abby.core.loader.mesh;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,9 +9,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.abby.TestUtils;
+import br.com.abby.core.loader.MeshLoader;
 import br.com.abby.core.model.Model;
 import br.com.etyllica.util.PathHelper;
-import br.com.etyllica.util.io.IOHelper;
 
 public class OBJLoaderTest {
 
@@ -44,7 +45,7 @@ public class OBJLoaderTest {
 		
 		try {
 			
-			if(OBJLoaderTest.isTestEnvironment(dir)) {
+			if(TestUtils.isTestEnvironment(dir)) {
 				dir = new URL(MeshLoader.getInstance().getUrl(), "etyllica/assets/models/"+filename);
 			}
 			
@@ -62,10 +63,4 @@ public class OBJLoaderTest {
 		}
 		
 	}
-	
-	private static boolean isTestEnvironment(URL dir) {
-		String prefix = IOHelper.FILE_PREFIX+"/home/ubuntu";
-		return dir.toString().startsWith(prefix);
-	}
-	
 }
