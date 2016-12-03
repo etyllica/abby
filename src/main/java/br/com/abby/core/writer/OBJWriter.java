@@ -11,7 +11,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import br.com.abby.core.loader.OBJLoader;
+import br.com.abby.core.loader.mesh.OBJLoader;
 import br.com.abby.core.model.Face;
 import br.com.abby.core.model.Group;
 import br.com.abby.core.model.Model;

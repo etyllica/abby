@@ -1,4 +1,4 @@
-package br.com.abby.core.loader;
+package br.com.abby.core.loader.mesh;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,6 +11,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import br.com.abby.core.loader.VBOLoader;
 import br.com.abby.core.material.OBJMaterial;
 import br.com.abby.core.model.Face;
 import br.com.abby.core.model.Group;
@@ -45,12 +46,13 @@ public class OBJLoader implements VBOLoader {
 		
 		String modelFolder = PathHelper.upperDirectory(fpath);
 		
-		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 		Model vbo = new Model(path);
 
 		List<Group> groups = new ArrayList<Group>();
 		Group group = new Group(DEFAULT_GROUP_NAME);
 
+		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+		
 		String line;
 
 		while ((line = reader.readLine()) != null) {

@@ -1,4 +1,4 @@
-package br.com.abby.core.loader;
+package br.com.abby.core.loader.mesh;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +11,8 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import br.com.abby.core.loader.StreamParser;
+import br.com.abby.core.loader.VBOLoader;
 import br.com.abby.core.material.OBJMaterial;
 import br.com.abby.core.model.Face;
 import br.com.abby.core.model.Group;
