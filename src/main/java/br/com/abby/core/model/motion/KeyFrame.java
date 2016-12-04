@@ -7,17 +7,21 @@ import com.badlogic.gdx.math.Matrix4;
 
 public class KeyFrame {
 
-	Map<String, Matrix4> boneTransforms = new HashMap<String, Matrix4>();
+	Map<Integer, Matrix4> boneTransforms = new HashMap<Integer, Matrix4>();
 	
 	public KeyFrame() {
 		super();
 	}
 	
-	public void addTransform(String boneName, Matrix4 transform) {
-		boneTransforms.put(boneName, transform);
+	public void addTransform(int boneIndex, Matrix4 transform) {
+		boneTransforms.put(boneIndex, transform);
 	}
 
-	public Matrix4 getTransform(String boneName) {
-		return boneTransforms.get(boneName);
+	public Matrix4 getTransform(int boneIndex) {
+		return boneTransforms.get(boneIndex);
+	}
+
+	public Map<Integer, Matrix4> getTransforms() {
+		return boneTransforms;
 	}
 }

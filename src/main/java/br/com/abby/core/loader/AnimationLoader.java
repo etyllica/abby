@@ -46,11 +46,11 @@ public class AnimationLoader extends LoaderImpl {
 		loaders.put(BVH, new BVHLoader());
 	}
 	
-	public Motion loadModel(String path) {
-		return loadModel(path, false);
+	public Motion loadMotion(String path) {
+		return loadMotion(path, false);
 	}
 
-	public Motion loadModel(String path, boolean absolutePath) {
+	public Motion loadMotion(String path, boolean absolutePath) {
 
 		URL dir = null;
 		try {

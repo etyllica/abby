@@ -27,6 +27,8 @@ public class BVHLoader implements MotionLoader {
 	private static final String TAG_JOINT = "JOINT";
 	private static final String TAG_CHANNELS = "CHANNELS";
 	private static final String TAG_END_SITE = "End Site";
+	private static final String TAG_CLOSE_CURLY_BRACKET = "}";
+	private static final String TAG_OPEN_CURLY_BRACKET = "{";
 	
 	private static final String TAG_MOTION = "MOTION";
 	private static final String TAG_FRAMES = "Frames:";
@@ -40,6 +42,21 @@ public class BVHLoader implements MotionLoader {
 	private static final String CHANNEL_Y_ROTATION = "Yrotation";
 	private static final String CHANNEL_Z_ROTATION = "Zrotation";
 	private static final String SUFFIX_END = "End";
+	
+	class BVHStatus {
+		int currentJointIndex = 0;
+		int maxIndex = 0;
+		
+		List<BVHJoint> joints = new ArrayList<BVHJoint>();
+
+		public BVHJoint parentJoint() {
+			return joints.get(currentJointIndex);
+		}
+
+		public BVHJoint currentJoint() {
+			return joints.get(maxIndex);
+		}
+	}
 	
 	class BVHJoint {
 		
@@ -56,6 +73,8 @@ public class BVHLoader implements MotionLoader {
 
 		//Channel Indexes
 		Map<Integer, String> channels;
+		public int index;
+		public int parentIndex;
 
 		public BVHJoint(String name) {
 			super();
@@ -87,10 +106,10 @@ public class BVHLoader implements MotionLoader {
 
 		Motion motion = new Motion();
 
-		List<BVHJoint> joints = new ArrayList<BVHJoint>();
+		BVHStatus status = new BVHStatus();
+		
 		Map<Integer, KeyFrame> keyFrames = motion.getKeyFrames();
 
-		BVHJoint currentJoint = null;
 		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
 		String line;
@@ -108,17 +127,17 @@ public class BVHLoader implements MotionLoader {
 			}
 			
 			if (TAG_HIERARCHY.equals(mode)) {
-				currentJoint = parseHierarchy(joints, currentJoint, line);
+				status = parseHierarchy(status, line);
 			} else if(TAG_MOTION.equals(mode)) {
 				mode = parseMotion(motion, line, mode);
 			} else if(TAG_KEYFRAME.equals(mode)) {
-				parseKeyFrame(joints, keyFrames, line);
+				parseKeyFrame(status.joints, keyFrames, line);
 			}
 		}
 
 		reader.close();
 
-		Armature armature = buildArmature(joints);
+		Armature armature = buildArmature(status.joints);
 
 		motion.setArmature(armature);
 		motion.setKeyFrames(keyFrames);
@@ -134,8 +153,13 @@ public class BVHLoader implements MotionLoader {
 		
 		KeyFrame keyFrame = new KeyFrame();
 		
+		int boneIndex = 0;
 		for (BVHJoint joint : joints) {
 			
+			//Avoid leaf joints (End Sites)
+			if (joint.channels == null) {
+				continue;
+			}
 			for (int i = 0; i < joint.channels.size(); i++) {
 				String part = parts[index + i];
 				String p = joint.channels.get(i);
@@ -159,7 +183,8 @@ public class BVHLoader implements MotionLoader {
 			index += joint.channels.size();
 			Matrix4 transform = new Matrix4();
 			transform.setFromEulerAngles(joint.zRotation, joint.xRotation, joint.yRotation);
-			keyFrame.addTransform(joint.name, transform);
+			keyFrame.addTransform(boneIndex, transform);
+			boneIndex++;
 		}
 		//Add a keyFrame after iterate over all joints  
 		keyFrames.put(keyFrameIndex, keyFrame);
@@ -179,32 +204,36 @@ public class BVHLoader implements MotionLoader {
 		return mode;
 	}
 
-	private BVHJoint parseHierarchy(List<BVHJoint> joints, BVHJoint currentJoint, String line) {
+	private BVHStatus parseHierarchy(BVHStatus status, String line) {
 		if (line.startsWith(TAG_ROOT+" ")) {
 			String jointName = line.substring((TAG_ROOT+" ").length());
 			BVHJoint joint = new BVHJoint(jointName);
 			joint.setParent(joint);
-
-			currentJoint = joint;
-			joints.add(joint);
+			joint.index = 0;
+			status.maxIndex = -1;
+			status.joints.add(joint);
 
 		} else if (line.startsWith(TAG_JOINT+" ")) {
+			BVHJoint parentJoint = status.parentJoint();
+			
 			String jointName = line.substring((TAG_JOINT+" ").length());
-			BVHJoint joint = new BVHJoint(jointName, currentJoint);
-			joint.setParent(currentJoint);
+			BVHJoint joint = new BVHJoint(jointName, parentJoint);
+			joint.setParent(parentJoint);
 			
-			currentJoint = joint;
-			joints.add(joint);
+			joint.index = status.maxIndex;
+			joint.parentIndex = parentJoint.index;
+			status.joints.add(joint);
 
-		} else if (line.startsWith(TAG_END_SITE+" ")) {
-			String jointName = line.substring((TAG_END_SITE+" ").length());
-			BVHJoint joint = new BVHJoint(jointName+SUFFIX_END, currentJoint);
-			joint.setParent(currentJoint);
+		} else if (line.startsWith(TAG_END_SITE)) {
+			BVHJoint parentJoint = status.parentJoint();
 			
-			currentJoint = joint;
-			joints.add(joint);
-
+			BVHJoint joint = new BVHJoint(parentJoint.name+SUFFIX_END, parentJoint);
+			joint.setParent(parentJoint);
+			
+			status.joints.add(joint);
 		} else if (line.startsWith(TAG_OFFSET+" ")) {
+			BVHJoint currentJoint = status.currentJoint();
+			
 			String[] parts = line.split(" ");
 
 			float offsetX = Float.parseFloat(parts[1]);
@@ -224,9 +253,16 @@ public class BVHLoader implements MotionLoader {
 				channels.put(i, parts[2 + i]);
 			}
 			
+			BVHJoint currentJoint = status.parentJoint();
 			currentJoint.channels = channels;
+		} else if (line.startsWith(TAG_CLOSE_CURLY_BRACKET)) {
+			status.currentJointIndex = status.currentJoint().parentIndex;
+		} else if (line.startsWith(TAG_OPEN_CURLY_BRACKET)) {
+			status.maxIndex++;
+			status.currentJointIndex = status.maxIndex;
 		}
-		return currentJoint;
+		
+		return status;
 	}
 
 	private Armature buildArmature(List<BVHJoint> joints) {
@@ -237,19 +273,16 @@ public class BVHLoader implements MotionLoader {
 		Map<String, Joint> js = new HashMap<String, Joint>();		
 		
 		for (BVHJoint joint : joints) {
-			
+			//Root Joint
 			if (joint.parent == joint) {
-				Joint j = createJoint(joint);
+				Joint j = createJoint(joint, Vector3.Zero);
 				js.put(joint.name, j);
 				
 				armature.setRootName(joint.name);
 				armature.setRoot(j);
-				
-				
 			} else {
-				
 				Joint parentJoint = js.get(joint.parent.name);
-				Joint j = createJoint(joint);
+				Joint j = createJoint(joint, parentJoint.getOffset());
 				js.put(joint.name, j);
 				
 				Bone bone = new Bone();
@@ -278,8 +311,9 @@ public class BVHLoader implements MotionLoader {
 		return null;
 	}
 
-	private Joint createJoint(BVHJoint joint) {
+	private Joint createJoint(BVHJoint joint, Vector3 offset) {
 		Vector3 position = new Vector3(joint.offset);
+		position.add(offset);
 		return new Joint(joint.name, position);
 	}
 

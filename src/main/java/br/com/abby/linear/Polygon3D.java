@@ -2,7 +2,7 @@ package br.com.abby.linear;
 
 import java.util.Vector;
 
-import com.sun.prism.paint.Color;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * 
@@ -13,8 +13,7 @@ import com.sun.prism.paint.Color;
 
 public class Polygon3D extends AimPoint {
 	
-	protected Color color = Color.BLACK;
-	protected Vector<ColoredPoint3D> vertices;
+	protected Vector<Vector3> vertices;
 	
 	public Polygon3D() {
 		this(0, 0, 0);
@@ -22,7 +21,7 @@ public class Polygon3D extends AimPoint {
 	public Polygon3D(float x, float y, float z) {
 		super(x,y,z);
 		
-		vertices = new Vector<ColoredPoint3D>();
+		vertices = new Vector<Vector3>();
 			
 		/*
 		 * Teste
@@ -55,15 +54,11 @@ public class Polygon3D extends AimPoint {
 		
 	}
 		
-	public void addVertex(double x, double y, double z){
-		vertices.add(new ColoredPoint3D(x,y,z));
+	public void addVertex(float x, float y, float z){
+		vertices.add(new Vector3(x,y,z));
 	}
 	
-	public Vector<ColoredPoint3D> getVertices(){
+	public Vector<Vector3> getVertices(){
 		return vertices;
 	}
-	public Color getColor() {
-		return color;
-	}
-
 }
