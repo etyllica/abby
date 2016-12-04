@@ -45,7 +45,7 @@ public class BVHLoader implements MotionLoader {
 	
 	class BVHStatus {
 		int currentJointIndex = 0;
-		int maxIndex = 0;
+		int count = 0;
 		
 		List<BVHJoint> joints = new ArrayList<BVHJoint>();
 
@@ -54,7 +54,7 @@ public class BVHLoader implements MotionLoader {
 		}
 
 		public BVHJoint currentJoint() {
-			return joints.get(maxIndex);
+			return joints.get(count);
 		}
 	}
 	
@@ -210,25 +210,31 @@ public class BVHLoader implements MotionLoader {
 			BVHJoint joint = new BVHJoint(jointName);
 			joint.setParent(joint);
 			joint.index = 0;
-			status.maxIndex = -1;
+			status.count = 0;
 			status.joints.add(joint);
 
 		} else if (line.startsWith(TAG_JOINT+" ")) {
+			status.count++;
 			BVHJoint parentJoint = status.parentJoint();
 			
 			String jointName = line.substring((TAG_JOINT+" ").length());
 			BVHJoint joint = new BVHJoint(jointName, parentJoint);
 			joint.setParent(parentJoint);
 			
-			joint.index = status.maxIndex;
+			joint.index = status.count;
 			joint.parentIndex = parentJoint.index;
+			
 			status.joints.add(joint);
 
 		} else if (line.startsWith(TAG_END_SITE)) {
+			status.count++;
 			BVHJoint parentJoint = status.parentJoint();
 			
 			BVHJoint joint = new BVHJoint(parentJoint.name+SUFFIX_END, parentJoint);
 			joint.setParent(parentJoint);
+			
+			joint.index = status.count;
+			joint.parentIndex = parentJoint.index;
 			
 			status.joints.add(joint);
 		} else if (line.startsWith(TAG_OFFSET+" ")) {
@@ -256,10 +262,9 @@ public class BVHLoader implements MotionLoader {
 			BVHJoint currentJoint = status.parentJoint();
 			currentJoint.channels = channels;
 		} else if (line.startsWith(TAG_CLOSE_CURLY_BRACKET)) {
-			status.currentJointIndex = status.currentJoint().parentIndex;
+			status.currentJointIndex = status.parentJoint().parentIndex;
 		} else if (line.startsWith(TAG_OPEN_CURLY_BRACKET)) {
-			status.maxIndex++;
-			status.currentJointIndex = status.maxIndex;
+			status.currentJointIndex = status.count;
 		}
 		
 		return status;
@@ -269,21 +274,20 @@ public class BVHLoader implements MotionLoader {
 		
 		Armature armature = new Armature();
 		
-		//Map<String, Bone> bones = new HashMap<String, Bone>();
-		Map<String, Joint> js = new HashMap<String, Joint>();		
+		Map<Integer, Joint> js = new HashMap<Integer, Joint>();		
 		
 		for (BVHJoint joint : joints) {
 			//Root Joint
 			if (joint.parent == joint) {
 				Joint j = createJoint(joint, Vector3.Zero);
-				js.put(joint.name, j);
+				js.put(joint.index, j);
 				
 				armature.setRootName(joint.name);
 				armature.setRoot(j);
 			} else {
-				Joint parentJoint = js.get(joint.parent.name);
+				Joint parentJoint = js.get(joint.parent.index);
 				Joint j = createJoint(joint, parentJoint.getOffset());
-				js.put(joint.name, j);
+				js.put(joint.index, j);
 				
 				Bone bone = new Bone();
 

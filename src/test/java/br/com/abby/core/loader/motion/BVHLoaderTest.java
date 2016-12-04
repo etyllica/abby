@@ -61,10 +61,7 @@ public class BVHLoaderTest {
 			Assert.assertEquals(37, motion.getArmature().getBones().size());
 			
 			Assert.assertEquals(1, motion.getArmature().getBones().get(0).getChildren().size());
-			
-			for(Bone bone:motion.getArmature().getBones()) {
-				System.out.println(bone.getOrigin().getName()+" ("+bone.getChildren().size()+")");
-			}
+			Assert.assertEquals(1, motion.getArmature().getBones().get(1).getChildren().size());
 			
 			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().x, EPSILON);
 			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().y, EPSILON);

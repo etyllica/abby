@@ -58,6 +58,10 @@ public class Bone {
 		offset.sub(bone.getOrigin().getOffset());
 		offset.mul(t);
 		offset.add(bone.getOrigin().getOffset());
+		
+		for(Bone child:children) {
+			child.rotate(bone, t);
+		}
 	}
 
 }
