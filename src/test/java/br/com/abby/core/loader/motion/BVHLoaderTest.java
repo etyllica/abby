@@ -58,15 +58,18 @@ public class BVHLoaderTest {
 			Motion motion = loader.loadMotion(dir, fileName);
 			Assert.assertNotNull(motion);
 			Assert.assertEquals(30, motion.getArmature().getBones().size());
-			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().x, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().y, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().z, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().x, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().y, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().z, EPSILON);
-			Assert.assertEquals(1.36306f, motion.getArmature().getBones().get(2).getOrigin().x, EPSILON);
-			Assert.assertEquals(-1.79463f, motion.getArmature().getBones().get(2).getOrigin().y, EPSILON);
-			Assert.assertEquals(0.83929f, motion.getArmature().getBones().get(2).getOrigin().z, EPSILON);
+			
+			Assert.assertEquals(1, motion.getArmature().getBones().get(1).getChildren().size());
+			
+			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().x, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().y, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().z, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getOffset().x, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getOffset().y, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getOffset().z, EPSILON);
+			Assert.assertEquals(1.36306f, motion.getArmature().getBones().get(2).getOrigin().getOffset().x, EPSILON);
+			Assert.assertEquals(-1.79463f, motion.getArmature().getBones().get(2).getOrigin().getOffset().y, EPSILON);
+			Assert.assertEquals(0.83929f, motion.getArmature().getBones().get(2).getOrigin().getOffset().z, EPSILON);
 			
 			Assert.assertEquals(2752, motion.getFrames());
 			Assert.assertEquals(0.0083333f, motion.getFrameTime(), EPSILON);

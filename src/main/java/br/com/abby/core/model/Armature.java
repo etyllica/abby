@@ -5,18 +5,19 @@ import java.util.List;
 
 public class Armature {
 
-	Bone root;
+	String rootName;
+	Joint root;
 	List<Bone> bones = new ArrayList<Bone>();
 	
 	public Armature() {
 		super();
 	}
 
-	public Bone getRoot() {
+	public Joint getRoot() {
 		return root;
 	}
 
-	public void setRoot(Bone root) {
+	public void setRoot(Joint root) {
 		this.root = root;
 	}
 
@@ -26,6 +27,10 @@ public class Armature {
 	
 	public List<Bone> getBones() {
 		return bones;
+	}
+
+	public void setRootName(String rootName) {
+		this.rootName = rootName;
 	}
 	
 }

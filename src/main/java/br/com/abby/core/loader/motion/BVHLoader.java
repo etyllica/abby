@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import br.com.abby.core.model.Armature;
 import br.com.abby.core.model.Bone;
+import br.com.abby.core.model.Joint;
 import br.com.abby.core.model.motion.KeyFrame;
 import br.com.abby.core.model.motion.Motion;
 
@@ -71,6 +72,15 @@ public class BVHLoader implements MotionLoader {
 			this.parent = parent;
 		}
 
+		public boolean equals(BVHJoint otherJoint) {
+			return xPosition == otherJoint.xPosition &&
+				   yPosition == otherJoint.yPosition &&
+				   zPosition == otherJoint.zPosition &&
+				   xRotation == otherJoint.xRotation &&
+				   yRotation == otherJoint.yRotation &&
+				   zRotation == otherJoint.zRotation;
+		}
+		
 	}
 
 	public Motion loadMotion(URL url, String path) throws FileNotFoundException, IOException {
@@ -220,22 +230,57 @@ public class BVHLoader implements MotionLoader {
 	}
 
 	private Armature buildArmature(List<BVHJoint> joints) {
+		
 		Armature armature = new Armature();
 		
+		//Map<String, Bone> bones = new HashMap<String, Bone>();
+		Map<String, Joint> js = new HashMap<String, Joint>();		
+		
 		for (BVHJoint joint : joints) {
-
-			if (joint.parent != joint) {
+			
+			if (joint.parent == joint) {
+				Joint j = createJoint(joint);
+				js.put(joint.name, j);
+				
+				armature.setRootName(joint.name);
+				armature.setRoot(j);
+				
+				
+			} else {
+				
+				Joint parentJoint = js.get(joint.parent.name);
+				Joint j = createJoint(joint);
+				js.put(joint.name, j);
+				
 				Bone bone = new Bone();
 
-				bone.setOrigin(joint.parent.offset);
-				bone.setDestination(joint.offset);
-				bone.setName(joint.name);
+				bone.setOrigin(parentJoint);
+				bone.setDestination(j);
 
 				armature.addBone(bone);
+				
+				Bone parentBone = findParentBone(parentJoint, armature);
+				if (parentBone != null) {
+					parentBone.addBone(bone);
+				}
 			}
 		}
 
 		return armature;
+	}
+
+	private Bone findParentBone(Joint parentJoint, Armature armature) {
+		for(Bone b : armature.getBones()) {
+			if (b.getDestination().equals(parentJoint)) {
+				return b;
+			}
+		}
+		return null;
+	}
+
+	private Joint createJoint(BVHJoint joint) {
+		Vector3 position = new Vector3(joint.offset);
+		return new Joint(joint.name, position);
 	}
 
 	private String fixLine(String line) {

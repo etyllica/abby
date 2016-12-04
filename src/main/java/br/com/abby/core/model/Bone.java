@@ -1,13 +1,16 @@
 package br.com.abby.core.model;
 
-import com.badlogic.gdx.math.Vector3;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bone {
 
 	String name;
 	
-	Vector3 origin;
-	Vector3 destination;
+	Joint origin;
+	Joint destination;
+	
+	List<Bone> children = new ArrayList<Bone>();
 	
 	public String getName() {
 		return name;
@@ -17,20 +20,28 @@ public class Bone {
 		this.name = name;
 	}
 
-	public Vector3 getOrigin() {
+	public Joint getOrigin() {
 		return origin;
 	}
 
-	public Vector3 getDestination() {
+	public Joint getDestination() {
 		return destination;
 	}
 
-	public void setOrigin(Vector3 origin) {
+	public void setOrigin(Joint origin) {
 		this.origin = origin;
 	}
 	
-	public void setDestination(Vector3 destination) {
+	public void setDestination(Joint destination) {
 		this.destination = destination;
+	}
+
+	public void addBone(Bone bone) {
+		children.add(bone);
+	}
+	
+	public List<Bone> getChildren() {
+		return children;
 	}
 
 }
