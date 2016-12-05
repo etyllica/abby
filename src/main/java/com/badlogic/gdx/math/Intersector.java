@@ -547,6 +547,9 @@ public final class Intersector {
 		float tMax = 100000.0f;
 
 		Vector3 OBBposition_worldspace = matrix.getTranslation(new Vector3());
+		/*OBBposition_worldspace.x *= matrix.getScaleX();
+		OBBposition_worldspace.y *= matrix.getScaleY();
+		OBBposition_worldspace.z *= matrix.getScaleZ();*/
 
 		Vector3 delta = OBBposition_worldspace.sub(ray.origin);
 

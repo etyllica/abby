@@ -282,37 +282,26 @@ public class BVHLoader implements MotionLoader {
 				Joint j = createJoint(joint, Vector3.Zero);
 				js.put(joint.index, j);
 				
-				armature.setRootName(joint.name);
 				armature.setRoot(j);
 			} else {
 				Joint parentJoint = js.get(joint.parent.index);
-				Joint j = createJoint(joint, parentJoint.getOffset());
+				Joint j = createJoint(joint, parentJoint.getPosition());
 				js.put(joint.index, j);
 				
+				
 				Bone bone = new Bone();
-
 				bone.setOrigin(parentJoint);
 				bone.setDestination(j);
 
+				//Add reference to the bone
 				armature.addBone(bone);
 				
-				Bone parentBone = findParentBone(parentJoint, armature);
-				if (parentBone != null) {
-					parentBone.addBone(bone);
-				}
+				//Add the bone to the parentJoint
+				parentJoint.addBone(bone);
 			}
 		}
 
 		return armature;
-	}
-
-	private Bone findParentBone(Joint parentJoint, Armature armature) {
-		for(Bone b : armature.getBones()) {
-			if (b.getDestination().equals(parentJoint)) {
-				return b;
-			}
-		}
-		return null;
 	}
 
 	private Joint createJoint(BVHJoint joint, Vector3 offset) {

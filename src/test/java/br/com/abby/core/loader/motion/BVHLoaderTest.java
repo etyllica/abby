@@ -60,18 +60,18 @@ public class BVHLoaderTest {
 			Assert.assertNotNull(motion);
 			Assert.assertEquals(37, motion.getArmature().getBones().size());
 			
-			Assert.assertEquals(1, motion.getArmature().getBones().get(0).getChildren().size());
-			Assert.assertEquals(1, motion.getArmature().getBones().get(1).getChildren().size());
+			Assert.assertEquals(3, motion.getArmature().getRoot().getChildren().size());
+			Assert.assertEquals(1, motion.getArmature().getBones().get(1).getDestination().getChildren().size());
 			
-			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().x, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().y, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getOffset().z, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getOffset().x, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getOffset().y, EPSILON);
-			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getOffset().z, EPSILON);
-			Assert.assertEquals(1.36306f, motion.getArmature().getBones().get(2).getOrigin().getOffset().x, EPSILON);
-			Assert.assertEquals(-1.79463f, motion.getArmature().getBones().get(2).getOrigin().getOffset().y, EPSILON);
-			Assert.assertEquals(0.83929f, motion.getArmature().getBones().get(2).getOrigin().getOffset().z, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getPosition().x, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getPosition().y, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(0).getOrigin().getPosition().z, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getPosition().x, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getPosition().y, EPSILON);
+			Assert.assertEquals(0, motion.getArmature().getBones().get(1).getOrigin().getPosition().z, EPSILON);
+			Assert.assertEquals(1.36306f, motion.getArmature().getBones().get(2).getOrigin().getPosition().x, EPSILON);
+			Assert.assertEquals(-1.79463f, motion.getArmature().getBones().get(2).getOrigin().getPosition().y, EPSILON);
+			Assert.assertEquals(0.83929f, motion.getArmature().getBones().get(2).getOrigin().getPosition().z, EPSILON);
 			
 			Assert.assertEquals(2752, motion.getFrames());
 			Assert.assertEquals(0.0083333f, motion.getFrameTime(), EPSILON);
@@ -90,15 +90,15 @@ public class BVHLoaderTest {
 			
 			Bone LeftUpLeg = motion.getArmature().getBones().get(1);
 			  
-			Assert.assertEquals(1.36306, LeftUpLeg.getOffset().x, EPSILON);
-			Assert.assertEquals(-1.79463, LeftUpLeg.getOffset().y, EPSILON);
-			Assert.assertEquals(0.83929, LeftUpLeg.getOffset().z, EPSILON);
+			Assert.assertEquals(1.36306, LeftUpLeg.getDestination().getPosition().x, EPSILON);
+			Assert.assertEquals(-1.79463, LeftUpLeg.getDestination().getPosition().y, EPSILON);
+			Assert.assertEquals(0.83929, LeftUpLeg.getDestination().getPosition().z, EPSILON);
 			
 			Bone LeftLeg = motion.getArmature().getBones().get(2);
 			
-			Assert.assertEquals(2.44811, LeftLeg.getOffset().x-LeftUpLeg.getOffset().x, EPSILON);
-			Assert.assertEquals(-6.72613 , LeftLeg.getOffset().y-LeftUpLeg.getOffset().y, EPSILON);
-			Assert.assertEquals(0.00000, LeftLeg.getOffset().z-LeftUpLeg.getOffset().z, EPSILON);
+			Assert.assertEquals(2.44811, LeftLeg.getDestination().getPosition().x-LeftUpLeg.getDestination().getPosition().x, EPSILON);
+			Assert.assertEquals(-6.72613 , LeftLeg.getDestination().getPosition().y-LeftUpLeg.getDestination().getPosition().y, EPSILON);
+			Assert.assertEquals(0.00000, LeftLeg.getDestination().getPosition().z-LeftUpLeg.getDestination().getPosition().z, EPSILON);
 			
 		} catch (FileNotFoundException e) {
 			Assert.fail();
