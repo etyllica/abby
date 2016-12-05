@@ -3,20 +3,25 @@ package br.com.abby.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.math.Matrix4;
+import br.com.abby.core.model.motion.Transform;
+
 import com.badlogic.gdx.math.Vector3;
 
 public class Joint {
 	
 	String name;
 	Vector3 position;
+	Vector3 originalOffset;
 	
-	List<Bone> children = new ArrayList<Bone>();
+	Joint parent;
 	
-	public Joint(String name, Vector3 position) {
+	List<Joint> children = new ArrayList<Joint>();
+	
+	public Joint(String name, Vector3 position, Vector3 offset) {
 		super();
 		this.name = name;
 		this.position = position;
+		this.originalOffset = offset;
 	}
 	
 	public String getName() {
@@ -27,22 +32,30 @@ public class Joint {
 		return position;
 	}
 	
-	public void addBone(Bone bone) {
-		children.add(bone);
+	public void addJoint(Joint joint) {
+		children.add(joint);
+		joint.parent = this;
 	}
 	
-	public List<Bone> getChildren() {
+	public List<Joint> getChildren() {
 		return children;
 	}
 
-	public void rotate(Bone bone, Matrix4 t) {
-		position.set(bone.getDestination().getPosition());
-		position.sub(bone.getOrigin().getPosition());
-		position.mul(t);
-		position.add(bone.getOrigin().getPosition());
+	public void rotate(Joint anchor, Transform t) {
+		position.sub(anchor.position);
+		t.apply(position);
+		position.add(anchor.position);
 		
-		for(Bone child:children) {
-			child.getDestination().rotate(bone, t);
+		for (Joint child : children) {
+			child.rotate(anchor, t);
+		}
+	}
+
+	public void reset(Vector3 origin) {
+		position.set(originalOffset);
+		position.add(origin);
+		for (Joint child :children) {
+			child.reset(position);	
 		}
 	}
 }

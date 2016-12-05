@@ -10,14 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
-
 import br.com.abby.core.model.Armature;
 import br.com.abby.core.model.Bone;
 import br.com.abby.core.model.Joint;
 import br.com.abby.core.model.motion.KeyFrame;
 import br.com.abby.core.model.motion.Motion;
+import br.com.abby.core.model.motion.Transform;
+
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
 
 public class BVHLoader implements MotionLoader {
 
@@ -59,7 +60,6 @@ public class BVHLoader implements MotionLoader {
 	}
 	
 	class BVHJoint {
-		
 		BVHJoint parent;
 		String name;
 		Vector3 offset;
@@ -90,16 +90,6 @@ public class BVHLoader implements MotionLoader {
 		public void setParent(BVHJoint parent) {
 			this.parent = parent;
 		}
-
-		public boolean equals(BVHJoint otherJoint) {
-			return xPosition == otherJoint.xPosition &&
-				   yPosition == otherJoint.yPosition &&
-				   zPosition == otherJoint.zPosition &&
-				   xRotation == otherJoint.xRotation &&
-				   yRotation == otherJoint.yRotation &&
-				   zRotation == otherJoint.zRotation;
-		}
-		
 	}
 
 	public Motion loadMotion(URL url, String path) throws FileNotFoundException, IOException {
@@ -145,17 +135,15 @@ public class BVHLoader implements MotionLoader {
 	}
 
 	private void parseKeyFrame(List<BVHJoint> joints, Map<Integer, KeyFrame> keyFrames, String line) {
+		int keyFrameIndex = keyFrames.size();
+		KeyFrame keyFrame = new KeyFrame();
+				
 		String[] parts = line.split(" ");
 		
 		int index = 0;
-
-		int keyFrameIndex = keyFrames.size();
+		int jointIndex = 0;
 		
-		KeyFrame keyFrame = new KeyFrame();
-		
-		int boneIndex = 0;
 		for (BVHJoint joint : joints) {
-			
 			//Avoid leaf joints (End Sites)
 			if (joint.channels == null) {
 				continue;
@@ -168,23 +156,35 @@ public class BVHLoader implements MotionLoader {
 				
 				if (CHANNEL_X_POSITION.equals(p)) {
 					joint.xPosition = value;
+					continue;
 				} else if (CHANNEL_Y_POSITION.equals(p)) {
 					joint.yPosition = value;
+					continue;
 				} else if (CHANNEL_Z_POSITION.equals(p)) {
 					joint.zPosition = value;
+					continue;
 				} else if (CHANNEL_X_ROTATION.equals(p)) {
 					joint.xRotation = value;
+					continue;
 				} else if (CHANNEL_Y_ROTATION.equals(p)) {
 					joint.yRotation = value;
+					continue;
 				} else if (CHANNEL_Z_ROTATION.equals(p)) {
 					joint.zRotation = value;
+					continue;
 				}
 			}
 			index += joint.channels.size();
-			Matrix4 transform = new Matrix4();
-			transform.setFromEulerAngles(joint.zRotation, joint.xRotation, joint.yRotation);
-			keyFrame.addTransform(boneIndex, transform);
-			boneIndex++;
+			
+			Transform transform = new Transform();
+			
+			transform.q = new Quaternion();
+			transform.q.setEulerAngles(joint.yRotation, joint.xRotation, joint.zRotation);
+			
+			transform.translation = new Vector3(joint.xPosition, joint.yPosition, joint.zPosition);
+			
+			keyFrame.addTransform(jointIndex, transform);
+			jointIndex++;
 		}
 		//Add a keyFrame after iterate over all joints  
 		keyFrames.put(keyFrameIndex, keyFrame);
@@ -271,7 +271,6 @@ public class BVHLoader implements MotionLoader {
 	}
 
 	private Armature buildArmature(List<BVHJoint> joints) {
-		
 		Armature armature = new Armature();
 		
 		Map<Integer, Joint> js = new HashMap<Integer, Joint>();		
@@ -283,11 +282,11 @@ public class BVHLoader implements MotionLoader {
 				js.put(joint.index, j);
 				
 				armature.setRoot(j);
+				armature.addJoint(j);
 			} else {
 				Joint parentJoint = js.get(joint.parent.index);
 				Joint j = createJoint(joint, parentJoint.getPosition());
 				js.put(joint.index, j);
-				
 				
 				Bone bone = new Bone();
 				bone.setOrigin(parentJoint);
@@ -295,9 +294,9 @@ public class BVHLoader implements MotionLoader {
 
 				//Add reference to the bone
 				armature.addBone(bone);
+				armature.addJoint(j);
 				
-				//Add the bone to the parentJoint
-				parentJoint.addBone(bone);
+				parentJoint.addJoint(j);
 			}
 		}
 
@@ -307,7 +306,7 @@ public class BVHLoader implements MotionLoader {
 	private Joint createJoint(BVHJoint joint, Vector3 offset) {
 		Vector3 position = new Vector3(joint.offset);
 		position.add(offset);
-		return new Joint(joint.name, position);
+		return new Joint(joint.name, position, joint.offset);
 	}
 
 	private String fixLine(String line) {

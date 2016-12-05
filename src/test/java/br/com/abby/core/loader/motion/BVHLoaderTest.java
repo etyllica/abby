@@ -16,6 +16,7 @@ import br.com.abby.TestUtils;
 import br.com.abby.core.loader.AnimationLoader;
 import br.com.abby.core.model.Bone;
 import br.com.abby.core.model.motion.Motion;
+import br.com.abby.core.model.motion.Transform;
 import br.com.etyllica.util.PathHelper;
 
 public class BVHLoaderTest {
@@ -78,10 +79,10 @@ public class BVHLoaderTest {
 			Assert.assertEquals(2752, motion.getKeyFrames().size());
 			
 			//Test Transform
-			Matrix4 transform = motion.getKeyFrames().get(1).getTransform(boneIndex);
-			Quaternion qL = transform.getRotation(new Quaternion());
+			Transform transform = motion.getKeyFrames().get(1).getTransform(boneIndex);
+			Quaternion qL = transform.q;
 			 
-			Matrix4 fromFile = new Matrix4().setFromEulerAngles(-13.8102f, 3.3502f, 2.5002f);
+			Matrix4 fromFile = new Matrix4().setFromEulerAngles(2.5002f, 3.3502f, -13.8102f);
 			Quaternion q1 = fromFile.getRotation(new Quaternion());
 			
 			Assert.assertEquals(q1.x, qL.x, EPSILON);
@@ -99,6 +100,10 @@ public class BVHLoaderTest {
 			Assert.assertEquals(2.44811, LeftLeg.getDestination().getPosition().x-LeftUpLeg.getDestination().getPosition().x, EPSILON);
 			Assert.assertEquals(-6.72613 , LeftLeg.getDestination().getPosition().y-LeftUpLeg.getDestination().getPosition().y, EPSILON);
 			Assert.assertEquals(0.00000, LeftLeg.getDestination().getPosition().z-LeftUpLeg.getDestination().getPosition().z, EPSILON);
+			
+			Assert.assertEquals(31, motion.getKeyFrames().get(0).getTransforms().size());
+			Assert.assertEquals(31, motion.getKeyFrames().get(1).getTransforms().size());
+			Assert.assertEquals(31, motion.getKeyFrames().get(2).getTransforms().size());
 			
 		} catch (FileNotFoundException e) {
 			Assert.fail();
