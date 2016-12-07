@@ -33,8 +33,8 @@ public class Armature {
 		return bones;
 	}
 
-	public void addJoint(Joint joint) {
-		jointIndex.put(joint.name, joints.size());
+	public void addJoint(int index, Joint joint) {
+		jointIndex.put(joint.name, index);
 		joints.add(joint);
 	}
 	
@@ -42,8 +42,8 @@ public class Armature {
 		return joints;
 	}
 
-	public int getIndex(Joint child) {
-		return jointIndex.get(child.name);
+	public int getIndex(Joint joint) {
+		return jointIndex.get(joint.name);
 	}
 	
 }
