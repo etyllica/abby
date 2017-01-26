@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import examples.etyllica.interpolation.Interpolation;
+import br.com.etyllica.core.interpolation.Interpolator;
 
 public class Timeline<T> {
 
@@ -15,7 +15,7 @@ public class Timeline<T> {
 	
 	Map<Integer, T> ids = new HashMap<Integer, T>();
 	Map<Integer, Map<Integer, KeyFrame>> actorFrames = new HashMap<Integer, Map<Integer, KeyFrame>>();
-	//Map<Long, Interpolation> interpolations = new HashMap<Long, Interpolation>();
+	Map<Long, Interpolator> interpolators = new HashMap<Long, Interpolator>();
 	
 	public int addActor(int index, T actor) {
 		if(ids.containsKey(index)) {
@@ -33,16 +33,16 @@ public class Timeline<T> {
 		return frames;
 	}
 	
-	public Map<Integer, KeyFrame> addKeyFrame(int id, int time, KeyFrame keyFrame, Interpolation interpolation) {
+	public Map<Integer, KeyFrame> addKeyFrame(int id, int time, KeyFrame keyFrame, Interpolator interpolator) {
 		Map<Integer, KeyFrame> frames = addKeyFrame(id, time, keyFrame);
-		//addInterpolation(keyFrame.getId(), interpolation);
+		addInterpolation(keyFrame.getId(), interpolator);
 		
 		return frames;
 	}
 	
-	/*public void addInterpolation(long id, Interpolation interpolation) {
-		interpolations.put(id, interpolation);
-	}*/
+	public void addInterpolation(long id, Interpolator interpolation) {
+		interpolators.put(id, interpolation);
+	}
 	
 	public Map<Integer, KeyFrame> getKeyFrames(T actor) {
 		for(Map.Entry<Integer, T> entry: ids.entrySet()) {
@@ -70,9 +70,9 @@ public class Timeline<T> {
 		
 		for(KeyFrame frame:frames.values()) {
 			long id = frame.getId();
-			/*if (interpolations.containsKey(id)) {
-				interpolations.remove(id);
-			}*/
+			if (interpolators.containsKey(id)) {
+				interpolators.remove(id);
+			}
 		}
 		
 		actorFrames.remove(index);
