@@ -15,7 +15,7 @@ public class Timeline<T> {
 	
 	Map<Integer, T> ids = new HashMap<Integer, T>();
 	Map<Integer, Map<Integer, KeyFrame>> actorFrames = new HashMap<Integer, Map<Integer, KeyFrame>>();
-	Map<Long, Interpolation> interpolations = new HashMap<Long, Interpolation>();
+	//Map<Long, Interpolation> interpolations = new HashMap<Long, Interpolation>();
 	
 	public int addActor(int index, T actor) {
 		if(ids.containsKey(index)) {
@@ -35,14 +35,14 @@ public class Timeline<T> {
 	
 	public Map<Integer, KeyFrame> addKeyFrame(int id, int time, KeyFrame keyFrame, Interpolation interpolation) {
 		Map<Integer, KeyFrame> frames = addKeyFrame(id, time, keyFrame);
-		addInterpolation(keyFrame.getId(), interpolation);
+		//addInterpolation(keyFrame.getId(), interpolation);
 		
 		return frames;
 	}
 	
-	public void addInterpolation(long id, Interpolation interpolation) {
+	/*public void addInterpolation(long id, Interpolation interpolation) {
 		interpolations.put(id, interpolation);
-	}
+	}*/
 	
 	public Map<Integer, KeyFrame> getKeyFrames(T actor) {
 		for(Map.Entry<Integer, T> entry: ids.entrySet()) {
@@ -70,9 +70,9 @@ public class Timeline<T> {
 		
 		for(KeyFrame frame:frames.values()) {
 			long id = frame.getId();
-			if (interpolations.containsKey(id)) {
+			/*if (interpolations.containsKey(id)) {
 				interpolations.remove(id);
-			}
+			}*/
 		}
 		
 		actorFrames.remove(index);
