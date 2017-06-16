@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import br.com.etyllica.core.interpolation.Interpolator;
+import br.com.etyllica.commons.interpolation.Interpolator;
 
 public class Timeline<T> {
 

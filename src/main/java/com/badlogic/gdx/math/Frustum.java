@@ -19,8 +19,6 @@ package com.badlogic.gdx.math;
 import com.badlogic.gdx.math.Plane.PlaneSide;
 import com.badlogic.gdx.math.collision.BoundingBox;
 
-import br.com.etyllica.cinematics.Camera;
-
 /** A truncated rectangular pyramid. Used to define the viewable region and its projection onto the screen.
  * @see Camera#frustum */
 public class Frustum {

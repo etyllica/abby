@@ -6,7 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.abby.util.PointToVectorAdapter;
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point3D;
 
 /**
  * AABB Bounding Box

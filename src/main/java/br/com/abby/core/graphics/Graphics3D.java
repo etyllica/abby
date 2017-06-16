@@ -1,13 +1,12 @@
 package br.com.abby.core.graphics;
 
+import br.com.abby.linear.AimPoint;
+import br.com.etyllica.core.graphics.Graphics;
+import br.com.etyllica.linear.Point3D;
+
 import com.badlogic.gdx.math.Vector3;
 
-import br.com.abby.linear.AimPoint;
-import br.com.etyllica.core.linear.Point3D;
-
-public interface Graphics3D {
-
-	int[] getViewPort();
+public interface Graphics3D extends Graphics {
 	
 	//Drawing Methods
 	void drawLine(Point3D a, Point3D b);
@@ -19,5 +18,14 @@ public interface Graphics3D {
 	void drawSphere(Vector3 point, double radius);
 	
 	void drawSphere(AimPoint point, double radius);
+
+	//GL Methods
+	void glClear(int mask);
+
+	void glLoadIdentity();
+	
+	int[] getViewPort();
+	
+	void glMatrixMode(int mode);
 	
 }

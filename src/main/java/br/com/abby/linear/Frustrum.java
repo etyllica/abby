@@ -2,7 +2,7 @@ package br.com.abby.linear;
 
 import java.util.List;
 
-import br.com.etyllica.core.collision.CollisionStatus;
+import br.com.etyllica.commons.collision.CollisionStatus;
 
 import com.badlogic.gdx.math.Vector3;
 

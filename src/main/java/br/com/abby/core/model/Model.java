@@ -7,7 +7,7 @@ import java.util.Map;
 
 import br.com.abby.core.material.OBJMaterial;
 import br.com.abby.linear.BoundingBox3D;
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point3D;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;

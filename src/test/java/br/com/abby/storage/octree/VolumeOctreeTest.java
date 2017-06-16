@@ -10,7 +10,7 @@ import br.com.abby.linear.BoundingBox3D;
 import br.com.abby.storage.octree.Octree;
 import br.com.abby.storage.octree.OctreeNode;
 import br.com.abby.storage.octree.VolumeOctree;
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point3D;
 
 public class VolumeOctreeTest {
 

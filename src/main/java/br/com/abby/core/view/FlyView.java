@@ -2,8 +2,8 @@ package br.com.abby.core.view;
 
 import br.com.abby.linear.AimPoint;
 import br.com.abby.linear.Camera;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.event.PointerEvent;
 
 public class FlyView {
 

@@ -1,6 +1,6 @@
 package br.com.abby.util;
 
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point3D;
 
 import com.badlogic.gdx.math.Vector3;
 
