@@ -6,7 +6,7 @@ import java.nio.IntBuffer;
 /**
  * Forked from https://jogamp.org/deployment/v2.1.0/javadoc/jogl/javadoc/javax/media/opengl/fixedfunc/GLMatrixFunc.html
  */
-public interface GraphicsMatrixFunc {
+public interface GLMatrixFunc {
     public static final int GL_MATRIX_MODE = 2976;
     public static final int GL_MODELVIEW = 5888;
     public static final int GL_MODELVIEW_MATRIX = 2982;
